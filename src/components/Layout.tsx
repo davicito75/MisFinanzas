@@ -170,7 +170,7 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Header with gradient background */}
-                        <div className="bg-gradient-to-r from-indigo-600/20 via-purple-600/20 to-indigo-600/20 border-b border-indigo-500/20 p-6 flex-shrink-0">
+                        <div className="bg-gradient-to-r from-indigo-600/20 via-purple-600/20 to-indigo-600/20 border-b border-indigo-500/20 p-5 flex-shrink-0">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center space-x-3">
                                     <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
@@ -187,90 +187,89 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                             </div>
 
                             {/* User Info Card */}
-                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 flex items-center space-x-3">
-                                <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center font-black text-white text-xl shadow-lg">
+                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 flex items-center space-x-3">
+                                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center font-black text-white text-lg shadow-lg">
                                     {user?.name?.[0] || 'U'}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-base font-bold text-white truncate">{user?.name || 'Usuario'}</p>
-                                    <p className="text-xs text-indigo-300 font-medium truncate">{user?.email || 'Local'}</p>
+                                    <p className="text-sm font-bold text-white truncate">{user?.name || 'Usuario'}</p>
+                                    <p className="text-[11px] text-indigo-300 font-medium truncate">{user?.email || 'Local'}</p>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Navigation Section */}
-                        <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
-                            {/* Quick Action */}
-                            <div className="mb-6">
-                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">Acción Rápida</p>
-                                <button
-                                    onClick={() => {
-                                        onAddManual();
-                                        setIsMobileMenuOpen(false);
-                                    }}
-                                    className="w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all text-base font-bold"
-                                >
-                                    <PlusCircle size={22} />
-                                    <span>Nuevo Registro</span>
-                                </button>
-                            </div>
+                        {/* All Options Stacked Together */}
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-2">
+                            {/* Quick Action - Nuevo Registro */}
+                            <button
+                                onClick={() => {
+                                    onAddManual();
+                                    setIsMobileMenuOpen(false);
+                                }}
+                                className="w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all font-bold"
+                            >
+                                <PlusCircle size={20} />
+                                <span>Nuevo Registro</span>
+                            </button>
 
                             {/* Navigation Items */}
-                            <div className="space-y-2">
-                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">Navegación</p>
-                                {menuItems.map((item) => (
-                                    <button
-                                        key={item.id}
-                                        onClick={() => {
-                                            onViewChange(item.id);
-                                            setIsMobileMenuOpen(false);
-                                        }}
-                                        className={cn(
-                                            "w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-200 text-base font-semibold group",
-                                            activeView === item.id
-                                                ? "bg-gradient-to-r from-indigo-600/30 to-purple-600/30 text-white border border-indigo-400/30 shadow-lg shadow-indigo-500/20"
-                                                : "text-slate-400 hover:bg-white/5 hover:text-white hover:border hover:border-white/10"
-                                        )}
-                                    >
-                                        <item.icon size={22} className={cn(
-                                            "transition-transform group-hover:scale-110",
-                                            activeView === item.id && "text-indigo-300"
-                                        )} />
-                                        <span>{item.label}</span>
-                                        {activeView === item.id && (
-                                            <div className="ml-auto w-2 h-2 rounded-full bg-indigo-400 shadow-lg shadow-indigo-400/50"></div>
-                                        )}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
+                            {menuItems.map((item) => (
+                                <button
+                                    key={item.id}
+                                    onClick={() => {
+                                        onViewChange(item.id);
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    className={cn(
+                                        "w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-200 font-semibold group",
+                                        activeView === item.id
+                                            ? "bg-gradient-to-r from-indigo-600/30 to-purple-600/30 text-white border border-indigo-400/30 shadow-lg shadow-indigo-500/20"
+                                            : "text-slate-400 hover:bg-white/5 hover:text-white hover:border hover:border-white/10"
+                                    )}
+                                >
+                                    <item.icon size={20} className={cn(
+                                        "transition-transform group-hover:scale-110",
+                                        activeView === item.id && "text-indigo-300"
+                                    )} />
+                                    <span>{item.label}</span>
+                                    {activeView === item.id && (
+                                        <div className="ml-auto w-2 h-2 rounded-full bg-indigo-400 shadow-lg shadow-indigo-400/50"></div>
+                                    )}
+                                </button>
+                            ))}
 
-                        {/* Bottom Actions */}
-                        <div className="p-6 border-t border-slate-800/50 bg-gradient-to-t from-black/20 to-transparent space-y-3 flex-shrink-0">
+                            {/* Divider */}
+                            <div className="h-px bg-slate-800/50 my-3"></div>
+
+                            {/* Sincronizar */}
                             <button
                                 disabled={isSyncing}
                                 onClick={onSync}
-                                className="w-full flex items-center justify-center space-x-2 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-indigo-600/50 disabled:to-purple-600/50 rounded-xl font-bold transition-all text-base shadow-lg shadow-indigo-500/30"
+                                className="w-full flex items-center space-x-3 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-indigo-600/50 disabled:to-purple-600/50 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/30 text-white"
                             >
                                 <RefreshCw className={cn("w-5 h-5", isSyncing && "animate-spin")} />
                                 <span>Sincronizar</span>
                             </button>
+
+                            {/* Limpiar Datos */}
                             <button
                                 onClick={() => {
                                     onClearData();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500/20 rounded-xl font-semibold transition-all text-sm"
+                                className="w-full flex items-center space-x-3 px-4 py-3 bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500/20 rounded-xl font-semibold transition-all"
                             >
                                 <Trash2 size={18} />
                                 <span>Limpiar Datos</span>
                             </button>
+
+                            {/* Cerrar Sesión */}
                             <button
                                 onClick={() => {
                                     onLogout();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold transition-all text-sm border border-transparent hover:border-white/10"
+                                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold transition-all border border-transparent hover:border-white/10"
                             >
                                 <LogOut size={18} />
                                 <span>Cerrar Sesión</span>
