@@ -349,7 +349,7 @@ function App() {
   const renderContent = () => {
     switch (activeView) {
       case 'dashboard':
-        return <Dashboard movements={state.movements} onViewChange={handleViewChange} />;
+        return <Dashboard movements={state.movements} onViewChange={handleViewChange} userName={state.profile?.name} />;
       case 'movements':
         return (
           <MovementsTable

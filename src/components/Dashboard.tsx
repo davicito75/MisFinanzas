@@ -78,7 +78,13 @@ interface DashboardProps {
     onViewChange: (view: 'dashboard' | 'movements' | 'subscriptions' | 'settings') => void;
 }
 
-export const Dashboard = ({ movements, onViewChange }: DashboardProps) => {
+interface DashboardProps {
+    movements: Movement[];
+    onViewChange: (view: 'dashboard' | 'movements' | 'subscriptions' | 'settings') => void;
+    userName?: string;
+}
+
+export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps) => {
     const now = new Date();
     const currentMonthKey = now.toISOString().substring(0, 7);
 
@@ -179,7 +185,7 @@ export const Dashboard = ({ movements, onViewChange }: DashboardProps) => {
                         <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
                         <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest">En vivo</span>
                     </div>
-                    <h1 className="text-5xl font-black gradient-text tracking-tighter mb-2">Hola de nuevo, David</h1>
+                    <h1 className="text-5xl font-black gradient-text tracking-tighter mb-2">Hola de nuevo{userName ? `, ${userName}` : ''}</h1>
                     <p className="text-slate-400 text-lg font-medium">Controla tus finanzas con inteligencia.</p>
                 </div>
                 <div className="flex items-center">
