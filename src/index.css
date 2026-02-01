@@ -2,54 +2,59 @@
 @import "tailwindcss";
 
 :root {
-  /* Color System */
-  --background: #060608;
-  --foreground: #f8fafc;
-  --card: rgba(18, 18, 24, 0.6);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --card-border-hover: rgba(99, 102, 241, 0.3);
-  --primary: #6366f1;
-  --primary-glow: rgba(99, 102, 241, 0.35);
-  --secondary: #121218;
-  --secondary-foreground: #94a3b8;
-  --muted: #1e1e24;
-  --muted-foreground: #64748b;
-  --accent: #6366f1;
-  --border: #1e1e24;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  
-  /* Border Radius */
-  --radius: 1.25rem;
-  --radius-sm: 0.75rem;
-  --radius-lg: 1.5rem;
-  
-  /* Mobile-First Spacing */
+  /* Color System - Sober Palette */
+  --background: #0a0a0c;
+  --foreground: #e5e5e5;
+  --surface: #1a1a1f;
+  --surface-elevated: #2a2a2f;
+  --border: #3a3a3f;
+  --text-primary: #e5e5e5;
+  --text-secondary: #a0a0a5;
+  --text-muted: #6a6a6f;
+  --accent: #4a4a4f;
+
+  /* Legacy support */
+  --card: #1a1a1f;
+  --card-border: #3a3a3f;
+  --card-border-hover: #4a4a4f;
+  --primary: #4a4a4f;
+  --primary-glow: rgba(74, 74, 79, 0.2);
+  --secondary: #1a1a1f;
+  --secondary-foreground: #a0a0a5;
+  --muted: #2a2a2f;
+  --muted-foreground: #6a6a6f;
+
+  /* Border Radius - Minimal/None */
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-lg: 0px;
+
+  /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 0.75rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
-  
-  /* Touch Targets */
+
+  /* Component Heights */
+  --button-height: 40px;
+  --input-height: 40px;
   --touch-target: 44px;
-  --touch-target-sm: 36px;
-  
+  --touch-target-sm: 40px;
+
   /* Bottom Navigation */
   --bottom-nav-height: 64px;
   --bottom-nav-safe-area: env(safe-area-inset-bottom, 0px);
-  
+
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.1);
+
+  /* Shadows - Subtle */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -69,13 +74,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Glass Card System */
+/* Card System - No Rounded Corners */
 .glass-card {
-  background: var(--card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0;
   padding: var(--spacing-lg);
   transition: all var(--transition-base);
   box-shadow: var(--shadow-md);
@@ -94,7 +97,7 @@ body {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
-  
+
   .glass-card:hover {
     transform: translateY(-2px);
   }
@@ -153,6 +156,7 @@ body {
 
 /* Mobile button adjustments */
 @media (max-width: 768px) {
+
   .primary-button,
   .secondary-button {
     padding: 0.75rem 1.25rem;
@@ -305,9 +309,12 @@ body {
 
 /* Animations */
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -318,6 +325,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -329,6 +337,7 @@ body {
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -336,9 +345,12 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -393,7 +405,7 @@ body {
     padding: var(--spacing-md);
     margin-bottom: var(--spacing-sm);
   }
-  
+
   .mobile-card:active {
     background: rgba(18, 18, 24, 0.8);
   }
@@ -404,11 +416,11 @@ body {
   h1 {
     font-size: 1.75rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }
-  
+
   h3 {
     font-size: 1.25rem;
   }
@@ -416,12 +428,10 @@ body {
 
 /* Loading States */
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.05) 25%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.05) 75%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.05) 25%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.05) 75%);
   background-size: 200% 100%;
   animation: loading 1.5s ease-in-out infinite;
 }
@@ -430,6 +440,7 @@ body {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -443,6 +454,7 @@ body {
 
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

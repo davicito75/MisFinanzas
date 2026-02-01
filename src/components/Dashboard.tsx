@@ -34,27 +34,20 @@ const StatCard = ({ title, amount, currency, trend, type, icon: Icon }: StatCard
     const isPositive = (trend ?? 0) >= 0;
 
     return (
-        <div className="glass-card group overflow-hidden relative">
-            <div className={cn(
-                "absolute -right-4 -top-4 w-24 h-24 blur-2xl opacity-10 rounded-full transition-opacity group-hover:opacity-20",
-                type === 'income' ? "bg-emerald-500" :
-                    type === 'expense' ? "bg-rose-500" :
-                        "bg-indigo-500"
-            )} />
-
-            <div className="flex justify-between items-start mb-6 relative">
+        <div className="glass-card group overflow-hidden relative border border-[#3a3a3f] bg-[#1a1a1f] p-6 hover:border-[#4a4a4f] transition-all duration-300">
+            <div className="flex justify-between items-start mb-4 relative">
                 <div className={cn(
-                    "p-3 rounded-2xl transition-transform group-hover:scale-110 shadow-lg",
-                    type === 'income' ? "bg-emerald-500/20 text-emerald-400 shadow-emerald-500/10" :
-                        type === 'expense' ? "bg-rose-500/20 text-rose-400 shadow-rose-500/10" :
-                            "bg-indigo-500/20 text-indigo-400 shadow-indigo-500/10"
+                    "p-2.5 transition-transform group-hover:scale-105",
+                    type === 'income' ? "bg-emerald-500/10 text-emerald-500" :
+                        type === 'expense' ? "bg-rose-500/10 text-rose-500" :
+                            "bg-indigo-500/10 text-indigo-400"
                 )}>
-                    <Icon size={24} />
+                    <Icon size={22} />
                 </div>
                 {trend !== undefined && (
                     <div className={cn(
-                        "flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-bold",
-                        isPositive ? "bg-emerald-500/10 text-emerald-500" : "bg-rose-500/10 text-rose-500"
+                        "flex items-center space-x-1 px-2 py-0.5 text-xs font-bold border",
+                        isPositive ? "bg-emerald-500/5 text-emerald-500 border-emerald-500/20" : "bg-rose-500/5 text-rose-500 border-rose-500/20"
                     )}>
                         {isPositive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
                         <span>{Math.abs(trend)}%</span>
@@ -62,10 +55,10 @@ const StatCard = ({ title, amount, currency, trend, type, icon: Icon }: StatCard
                 )}
             </div>
 
-            <h3 className="text-slate-400 text-xs font-bold mb-1 uppercase tracking-[0.1em]">{title}</h3>
+            <h3 className="text-[#a0a0a5] text-xs font-bold mb-1 uppercase tracking-widest">{title}</h3>
             <div className="flex items-baseline space-x-2">
-                <span className="text-xl font-medium text-slate-500 font-outfit">{currency}</span>
-                <span className="text-3xl font-extrabold tracking-tight stat-value font-outfit">
+                <span className="text-lg font-medium text-[#6a6a6f] font-outfit">{currency}</span>
+                <span className="text-3xl font-extrabold tracking-tight text-[#e5e5e5] font-outfit">
                     {amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                 </span>
             </div>
@@ -78,13 +71,7 @@ interface DashboardProps {
     onViewChange: (view: 'dashboard' | 'movements' | 'subscriptions' | 'settings') => void;
 }
 
-interface DashboardProps {
-    movements: Movement[];
-    onViewChange: (view: 'dashboard' | 'movements' | 'subscriptions' | 'settings') => void;
-    userName?: string;
-}
-
-export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps) => {
+export const Dashboard = ({ movements, onViewChange }: DashboardProps) => {
     const now = new Date();
     const currentMonthKey = now.toISOString().substring(0, 7);
 
@@ -159,84 +146,76 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
 
     const categoryData = monthlyMovements
         .filter(m => m.type === 'gasto')
-        .reduce((acc: any[], m) => {
-            const normalizedAmount = normalize(m.amount, m.currency);
-            const existing = acc.find(x => x.name === m.category);
+        .reduce((acc, movement) => {
+            const existing = acc.find(c => c.name === movement.category);
+            const value = normalize(movement.amount, movement.currency);
             if (existing) {
-                existing.value += normalizedAmount;
+                existing.value += value;
             } else {
-                acc.push({ name: m.category, value: normalizedAmount });
+                acc.push({ name: movement.category, value });
             }
             return acc;
-        }, []);
+        }, [] as { name: string; value: number }[])
+        .sort((a, b) => b.value - a.value);
 
     // Recent activity doesn't need to be restricted to this month, but should be filtered
     const activeMovements = movements
         .filter(m => m.status !== 'descartado')
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    const COLORS = ['#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe', '#e0e7ff'];
+    const COLORS = ['#6366f1', '#a855f7', '#ec4899', '#14b8a6', '#f59e0b'];
 
     return (
-        <div className="space-y-6 md:space-y-8 animate-fade-in">
-            <header className="flex flex-col gap-4 md:gap-6 pb-4 border-b border-white/5">
+        <div className="space-y-6 md:space-y-8 animate-in fade-in duration-500 pb-24 md:pb-0">
+            {/* Header Area - Clean & Minimal */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#3a3a3f] pb-6">
                 <div>
-                    <div className="flex items-center space-x-2 mb-2">
-                        <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                        <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest">En vivo</span>
-                    </div>
-                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-black gradient-text tracking-tighter mb-2">Hola de nuevo{userName ? `, ${userName}` : ''}</h1>
-                    <p className="text-slate-400 text-sm md:text-base lg:text-lg font-medium">Controla tus finanzas con inteligencia.</p>
+                    <h1 className="text-3xl font-black text-[#e5e5e5] tracking-tight mb-1">
+                        Resumen Financiero
+                    </h1>
+                    <p className="text-[#a0a0a5] font-medium flex items-center space-x-2">
+                        <Calendar size={16} />
+                        <span className="capitalize">{monthName} {yearName}</span>
+                    </p>
                 </div>
-                <div className="flex items-center">
-                    <div className="glass-card !py-2 md:!py-3 !px-3 md:!px-5 !rounded-xl md:!rounded-2xl border border-indigo-500/20 bg-indigo-500/5 shadow-xl shadow-indigo-500/5 flex items-center space-x-3 md:space-x-4">
-                        <div className="p-1.5 md:p-2 bg-indigo-500/20 rounded-lg text-indigo-400">
-                            <Calendar size={18} className="md:w-5 md:h-5" />
-                        </div>
-                        <div>
-                            <p className="text-[9px] md:text-[10px] uppercase font-bold text-indigo-400/60 tracking-wider mb-0">Periodo actual</p>
-                            <p className="text-xs md:text-sm font-bold text-indigo-100 uppercase">{monthName} {yearName}</p>
-                        </div>
-                    </div>
-                </div>
-            </header>
+
+                {/* No "EN VIVO" Badge anymore */}
+            </div>
 
             <AIInsights movements={movements} />
 
-            {/* Grid Sections */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {/* Stats Grid - Normalized Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <StatCard
-                    title="Total Ingresos"
+                    title="Balance Total"
+                    amount={balance}
+                    currency="CLP"
+                    type="balance"
+                    icon={Wallet}
+                />
+                <StatCard
+                    title="Ingresos"
                     amount={totalIncome}
-                    currency="$"
-                    trend={incomeTrend || undefined}
+                    currency="CLP"
+                    trend={incomeTrend}
                     type="income"
                     icon={TrendingUp}
                 />
                 <StatCard
-                    title="Total Gastos"
+                    title="Gastos"
                     amount={totalExpense}
-                    currency="$"
-                    trend={expenseTrend || undefined}
+                    currency="CLP"
+                    trend={expenseTrend}
                     type="expense"
                     icon={TrendingDown}
-                />
-                <StatCard
-                    title="Balance Neto"
-                    amount={balance}
-                    currency="$"
-                    type="balance"
-                    icon={Wallet}
                 />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
                 {/* Category Chart - Left */}
-                <div className="glass-card lg:col-span-5 flex flex-col min-h-[400px] md:min-h-[500px] border-indigo-500/10 min-w-0 overflow-hidden">
-                    <div className="mb-6 md:mb-8">
-                        <h3 className="text-lg md:text-xl font-black mb-1">Distribución</h3>
-                        <p className="text-slate-500 text-xs md:text-sm font-medium">Gastos segmentados por categoría</p>
-                    </div>
+                <div className="glass-card lg:col-span-12 xl:col-span-4 min-h-[500px] border border-[#3a3a3f] bg-[#1a1a1f] p-6">
+                    <h3 className="text-xl font-black mb-1 text-[#e5e5e5]">Distribución</h3>
+                    <p className="text-[#a0a0a5] text-sm font-medium mb-8">Desglose de gastos por categoría</p>
 
                     {/* FIXED HEIGHT CONTAINER FOR RECHARTS */}
                     <div className="w-full" style={{ minHeight: '250px', height: '250px' }}>
@@ -249,48 +228,50 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
                                         cy="50%"
                                         innerRadius={60}
                                         outerRadius={85}
-                                        paddingAngle={8}
+                                        paddingAngle={4}
                                         dataKey="value"
                                         animationBegin={0}
                                         animationDuration={1000}
+                                        stroke="none"
                                     >
                                         {categoryData.map((_entry, index) => (
                                             <Cell
                                                 key={`cell-${index}`}
                                                 fill={COLORS[index % COLORS.length]}
-                                                stroke="rgba(255,255,255,0.05)"
+                                                stroke="rgba(10, 10, 12, 1)"
                                                 strokeWidth={2}
                                             />
                                         ))}
                                     </Pie>
                                     <Tooltip
                                         contentStyle={{
-                                            backgroundColor: 'rgba(10, 10, 12, 0.95)',
-                                            borderColor: 'rgba(99, 102, 241, 0.2)',
-                                            borderRadius: '12px',
+                                            backgroundColor: '#1a1a1f',
+                                            borderColor: '#3a3a3f',
+                                            borderRadius: '0px',
                                             padding: '8px 12px',
-                                            fontSize: '11px'
+                                            fontSize: '11px',
+                                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
                                         }}
-                                        itemStyle={{ color: '#fff', fontSize: '11px', fontWeight: 'bold' }}
+                                        itemStyle={{ color: '#e5e5e5', fontSize: '11px', fontWeight: 'bold' }}
                                     />
                                 </PieChart>
                             </ResponsiveContainer>
 
                             {/* Center Text for Donut */}
                             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                <span className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-widest">Gasto Total</span>
-                                <span className="text-xl md:text-2xl font-black stat-value">${totalExpense.toLocaleString()}</span>
+                                <span className="text-[9px] md:text-[10px] font-bold text-[#6a6a6f] uppercase tracking-widest">Gasto Total</span>
+                                <span className="text-xl md:text-2xl font-black stat-value text-[#e5e5e5]">${totalExpense.toLocaleString()}</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="mt-6 md:mt-8 grid grid-cols-2 gap-3 md:gap-4">
                         {categoryData.slice(0, 4).map((item, i) => (
-                            <div key={item.name} className="flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg md:rounded-xl border border-white/5">
-                                <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                            <div key={item.name} className="flex items-center space-x-2 md:space-x-3 bg-[#2a2a2f] p-3 border border-[#3a3a3f]">
+                                <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-none shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
                                 <div className="min-w-0">
-                                    <p className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase truncate">{item.name}</p>
-                                    <p className="text-[11px] md:text-xs font-black truncate">${item.value.toLocaleString()}</p>
+                                    <p className="text-[9px] md:text-[10px] font-bold text-[#a0a0a5] uppercase truncate">{item.name}</p>
+                                    <p className="text-[11px] md:text-xs font-black text-[#e5e5e5] truncate">${item.value.toLocaleString()}</p>
                                 </div>
                             </div>
                         ))}
@@ -298,38 +279,38 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
                 </div>
 
                 {/* Recent Transactions - Right */}
-                <div className="glass-card lg:col-span-7 flex flex-col min-h-[500px]">
+                <div className="glass-card lg:col-span-12 xl:col-span-8 flex flex-col min-h-[500px] border border-[#3a3a3f] bg-[#1a1a1f] p-6">
                     <div className="flex justify-between items-start mb-10">
                         <div>
-                            <h3 className="text-xl font-black mb-1">Última Actividad</h3>
-                            <p className="text-slate-500 text-sm font-medium">Movimientos recientes en tus cuentas</p>
+                            <h3 className="text-xl font-black mb-1 text-[#e5e5e5]">Última Actividad</h3>
+                            <p className="text-[#a0a0a5] text-sm font-medium">Movimientos recientes en tus cuentas</p>
                         </div>
                         <button
                             onClick={() => onViewChange('movements')}
-                            className="px-4 py-2 rounded-xl bg-white/5 text-indigo-400 text-xs font-bold hover:bg-white/10 transition-all flex items-center group border border-white/5"
+                            className="px-4 py-2 bg-[#2a2a2f] text-[#a0a0a5] text-xs font-bold hover:bg-[#3a3a3f] hover:text-[#e5e5e5] transition-all flex items-center group border border-[#3a3a3f]"
                         >
                             Ver historial completo
                             <ChevronRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
                         </button>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-4">
+                    <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-3">
                         {activeMovements.length > 0 ? (
                             activeMovements.slice(0, 6).map((m) => (
-                                <div key={m.id} className="group flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] hover:bg-indigo-500/[0.05] transition-all border border-white/[0.03] hover:border-indigo-500/20">
+                                <div key={m.id} className="group flex items-center justify-between p-4 bg-[#0a0a0c] hover:bg-[#2a2a2f] transition-all border border-[#3a3a3f]">
                                     <div className="flex items-center space-x-5">
                                         <div className={cn(
-                                            "w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:rotate-6 shadow-lg",
-                                            m.type === 'ingreso' ? "bg-emerald-500/10 text-emerald-400" : "bg-slate-800 text-slate-300"
+                                            "w-12 h-12 flex items-center justify-center transition-all duration-300 shadow-sm border border-[#3a3a3f]",
+                                            m.type === 'ingreso' ? "bg-[#1a1a1f] text-emerald-500" : "bg-[#1a1a1f] text-[#a0a0a5] group-hover:text-[#e5e5e5]"
                                         )}>
-                                            {m.type === 'ingreso' ? <ArrowUpRight size={24} /> :
-                                                m.category === 'Suscripciones' ? <RefreshCw size={24} className="w-5 h-5" /> : <CreditCard size={24} />}
+                                            {m.type === 'ingreso' ? <ArrowUpRight size={20} /> :
+                                                m.category === 'Suscripciones' ? <RefreshCw size={20} className="w-5 h-5" /> : <CreditCard size={20} />}
                                         </div>
                                         <div>
-                                            <h4 className="text-sm font-black mb-1 group-hover:text-indigo-400 transition-colors uppercase tracking-tight">{m.merchant || m.description}</h4>
+                                            <h4 className="text-sm font-black mb-1 text-[#e5e5e5] group-hover:text-white transition-colors uppercase tracking-tight">{m.merchant || m.description}</h4>
                                             <div className="flex items-center space-x-3">
-                                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-bold uppercase tracking-wider border border-white/5">{m.category}</span>
-                                                <div className="flex items-center text-[10px] text-slate-600 font-bold uppercase whitespace-nowrap">
+                                                <span className="text-[10px] px-2 py-0.5 bg-[#2a2a2f] text-[#a0a0a5] font-bold uppercase tracking-wider border border-[#3a3a3f]">{m.category}</span>
+                                                <div className="flex items-center text-[10px] text-[#6a6a6f] font-bold uppercase whitespace-nowrap">
                                                     <Calendar size={10} className="mr-1" />
                                                     {m.date}
                                                 </div>
@@ -337,27 +318,20 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className={cn(
-                                            "text-lg font-black stat-value mb-1",
-                                            m.type === 'ingreso' ? "text-emerald-400" : "text-white"
+                                        <p className={cn(
+                                            "text-sm font-black mb-1 font-outfit",
+                                            m.type === 'ingreso' ? "text-emerald-500" : "text-[#e5e5e5]"
                                         )}>
-                                            {m.type === 'ingreso' ? '+' : '-'}{m.currency} {m.amount.toLocaleString(undefined, { minimumFractionDigits: 0 })}
-                                        </div>
-                                        <div className={cn(
-                                            "text-[9px] font-black uppercase tracking-[0.2em] px-2 py-1 rounded-md inline-block",
-                                            m.status === 'confirmado' ? "text-emerald-500 bg-emerald-500/10" : "text-amber-500 bg-amber-500/10"
-                                        )}>
-                                            {m.status.split('_')[0]}
-                                        </div>
+                                            {m.type === 'ingreso' ? '+' : '-'}${Number(m.amount).toLocaleString()}
+                                        </p>
+                                        <p className="text-[10px] font-bold text-[#6a6a6f] uppercase tracking-widest">{m.currency}</p>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-full text-slate-700 space-y-4">
-                                <div className="p-8 bg-white/5 rounded-full">
-                                    <Receipt size={64} className="opacity-20 translate-y-2 animate-bounce" />
-                                </div>
-                                <p className="font-black text-xl tracking-tight opacity-40 uppercase">Sin movimientos</p>
+                            <div className="flex flex-col items-center justify-center h-40 text-[#6a6a6f]">
+                                <Receipt size={48} className="mb-4 opacity-20" />
+                                <p className="text-sm font-medium">No hay movimientos recientes</p>
                             </div>
                         )}
                     </div>

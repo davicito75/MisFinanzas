@@ -21,14 +21,14 @@ const SidebarItem = ({ icon: Icon, label, active, onClick }: SidebarItemProps) =
     <button
         onClick={onClick}
         className={cn(
-            "w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200",
+            "w-full flex items-center space-x-3 px-4 py-3 border border-transparent transition-all duration-200",
             active
-                ? "bg-indigo-600/20 text-indigo-400 border border-indigo-500/30"
-                : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                ? "bg-[#2a2a2f] text-[#e5e5e5] border-[#3a3a3f]"
+                : "text-[#a0a0a5] hover:bg-[#1a1a1f] hover:text-[#e5e5e5] hover:border-[#3a3a3f]"
         )}
     >
-        <Icon size={20} />
-        <span className="font-medium">{label}</span>
+        <Icon size={18} />
+        <span className="font-medium text-sm">{label}</span>
     </button>
 );
 
@@ -55,67 +55,69 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
     ];
 
     return (
-        <div className="flex h-screen bg-[#0a0a0c] text-slate-100 overflow-hidden">
+        <div className="flex h-screen bg-[#0a0a0c] text-[#e5e5e5] overflow-hidden">
             {/* Sidebar Desktop - Hidden on mobile/tablet */}
-            <aside className="hidden lg:flex flex-col w-64 border-r border-slate-800 bg-[#0e0e11] p-6">
-                <div className="flex items-center space-x-3 mb-6 px-2">
-                    <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                        <Receipt className="text-white" size={18} />
+            <aside className="hidden lg:flex flex-col w-64 border-r border-[#3a3a3f] bg-[#1a1a1f] p-0">
+                <div className="flex items-center space-x-3 h-16 px-6 border-b border-[#3a3a3f]">
+                    <div className="w-8 h-8 bg-[#2a2a2f] border border-[#3a3a3f] flex items-center justify-center">
+                        <Receipt className="text-[#e5e5e5]" size={16} />
                     </div>
-                    <span className="text-xl font-bold tracking-tight">FinGmail</span>
+                    <span className="text-lg font-bold tracking-tight">Mis Finanzas</span>
                 </div>
 
-                <div className="bg-white/5 border border-white/5 rounded-2xl p-4 mb-10 flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/10">
-                        {user?.name?.[0] || 'U'}
+                <div className="p-6">
+                    <div className="bg-[#2a2a2f] border border-[#3a3a3f] p-4 mb-6 flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-[#1a1a1f] border border-[#3a3a3f] flex items-center justify-center font-bold text-[#e5e5e5]">
+                            {user?.name?.[0] || 'U'}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-bold truncate text-[#e5e5e5]">{user?.name || 'Usuario'}</p>
+                            <p className="text-[10px] text-[#a0a0a5] font-bold uppercase tracking-widest truncate">{user?.email || 'Local'}</p>
+                        </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold truncate text-slate-100">{user?.name || 'Usuario'}</p>
-                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest truncate">{user?.email || 'Local'}</p>
-                    </div>
+
+                    <nav className="space-y-1">
+                        <button
+                            onClick={onAddManual}
+                            className="w-full flex items-center space-x-3 px-4 py-3 bg-[#e5e5e5] text-[#0a0a0c] hover:bg-white transition-all mb-6 font-bold text-sm"
+                        >
+                            <PlusCircle size={18} />
+                            <span>Nuevo Registro</span>
+                        </button>
+                        {menuItems.map((item) => (
+                            <SidebarItem
+                                key={item.id}
+                                icon={item.icon}
+                                label={item.label}
+                                active={activeView === item.id}
+                                onClick={() => onViewChange(item.id)}
+                            />
+                        ))}
+                    </nav>
                 </div>
 
-                <nav className="flex-1 space-y-2">
-                    <button
-                        onClick={onAddManual}
-                        className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-600/20 transition-all mb-4 group"
-                    >
-                        <PlusCircle size={20} className="group-hover:scale-110 transition-transform" />
-                        <span className="font-semibold">Nuevo Registro</span>
-                    </button>
-                    {menuItems.map((item) => (
-                        <SidebarItem
-                            key={item.id}
-                            icon={item.icon}
-                            label={item.label}
-                            active={activeView === item.id}
-                            onClick={() => onViewChange(item.id)}
-                        />
-                    ))}
-                </nav>
-
-                <div className="mt-auto pt-6 border-t border-slate-800">
+                <div className="mt-auto p-6 border-t border-[#3a3a3f] bg-[#0a0a0c]">
                     <button
                         disabled={isSyncing}
                         onClick={onSync}
-                        className="w-full mb-4 flex items-center justify-center space-x-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/50 rounded-lg font-semibold transition-all shadow-lg shadow-indigo-600/20"
+                        className="w-full mb-3 flex items-center justify-center space-x-2 px-4 py-2.5 bg-[#2a2a2f] hover:bg-[#3a3a3f] border border-[#3a3a3f] disabled:opacity-50 text-[#e5e5e5] font-semibold transition-all text-sm"
                     >
                         <RefreshCw className={cn("w-4 h-4", isSyncing && "animate-spin")} />
                         <span>Sincronizar</span>
                     </button>
                     <button
                         onClick={onClearData}
-                        className="w-full mb-4 flex items-center justify-center space-x-2 px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded-lg font-semibold transition-all"
+                        className="w-full mb-3 flex items-center justify-center space-x-2 px-4 py-2.5 bg-transparent hover:bg-[#2a2a2f] text-[#a0a0a5] border border-[#3a3a3f] font-semibold transition-all text-sm"
                     >
                         <Trash2 size={16} />
                         <span>Limpiar Datos</span>
                     </button>
                     <button
                         onClick={onLogout}
-                        className="w-full flex items-center space-x-3 px-4 py-2 text-slate-500 hover:text-rose-400 transition-colors group"
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 text-[#6a6a6f] hover:text-[#e5e5e5] transition-colors text-sm font-medium"
                     >
-                        <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-bold">Cerrar Sesión</span>
+                        <LogOut size={16} />
+                        <span>Cerrar Sesión</span>
                     </button>
                 </div>
             </aside>
@@ -123,15 +125,15 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
             {/* Main Content */}
             <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
                 {/* Mobile Header - Simplified */}
-                <header className="lg:hidden flex items-center justify-between p-4 border-b border-slate-800 bg-[#1a1a1f]">
+                <header className="lg:hidden flex items-center justify-between p-4 border-b border-[#3a3a3f] bg-[#1a1a1f]">
                     <div className="flex items-center space-x-3">
-                        <div className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center">
-                            <Receipt className="text-slate-300" size={14} />
+                        <div className="w-8 h-8 bg-[#2a2a2f] border border-[#3a3a3f] flex items-center justify-center">
+                            <Receipt className="text-[#a0a0a5]" size={16} />
                         </div>
-                        <span className="font-bold text-slate-200">FinGmail</span>
+                        <span className="font-semibold text-[#e5e5e5]">Mis Finanzas</span>
                     </div>
                     <button onClick={() => setIsMobileMenuOpen(true)}>
-                        <Menu className="text-slate-400" />
+                        <Menu className="text-[#a0a0a5]" />
                     </button>
                 </header>
 
@@ -159,55 +161,60 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
 
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm md:hidden" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="fixed inset-0 z-50 bg-black/80 md:hidden" onClick={() => setIsMobileMenuOpen(false)}>
                     <aside
-                        className="w-80 h-full bg-[#1a1a1f] shadow-2xl animate-in slide-in-from-left duration-300 flex flex-col border-r border-slate-800"
+                        className="w-72 h-full bg-[#1a1a1f] border-r border-[#3a3a3f] flex flex-col"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Header */}
-                        <div className="bg-slate-900/50 border-b border-slate-800 p-5 flex-shrink-0">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-9 h-9 bg-slate-700 rounded-lg flex items-center justify-center">
-                                        <Receipt className="text-slate-300" size={18} />
+                        <div className="border-b border-[#3a3a3f] p-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-2">
+                                    <div className="w-8 h-8 bg-[#2a2a2f] border border-[#3a3a3f] flex items-center justify-center">
+                                        <Receipt className="text-[#a0a0a5]" size={16} />
                                     </div>
-                                    <span className="text-lg font-bold text-slate-200">FinGmail</span>
+                                    <span className="text-base font-semibold text-[#e5e5e5]">Mis Finanzas</span>
                                 </div>
                                 <button
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-[#2a2a2f] transition-colors"
                                 >
-                                    <X className="text-slate-400" size={22} />
+                                    <X className="text-[#a0a0a5]" size={20} />
                                 </button>
                             </div>
+                        </div>
 
-                            {/* User Info Card */}
-                            <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 flex items-center space-x-3">
-                                <div className="w-11 h-11 bg-slate-700 rounded-lg flex items-center justify-center font-bold text-slate-300 text-base">
+                        {/* User Info */}
+                        <div className="border-b border-[#3a3a3f] p-4">
+                            <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-[#2a2a2f] border border-[#3a3a3f] flex items-center justify-center font-semibold text-[#a0a0a5] text-sm">
                                     {user?.name?.[0] || 'U'}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-slate-200 truncate">{user?.name || 'Usuario'}</p>
-                                    <p className="text-xs text-slate-500 truncate">{user?.email || 'Local'}</p>
+                                    <p className="text-sm font-medium text-[#e5e5e5] truncate">{user?.name || 'Usuario'}</p>
+                                    <p className="text-xs text-[#6a6a6f] truncate">{user?.email || 'Local'}</p>
                                 </div>
                             </div>
                         </div>
 
-                        {/* All Options Stacked Together */}
-                        <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-1.5">
-                            {/* Quick Action - Nuevo Registro */}
+                        {/* Navigation */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-1">
+                            {/* Primary Action */}
                             <button
                                 onClick={() => {
                                     onAddManual();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 transition-all font-semibold"
+                                className="w-full flex items-center space-x-3 px-3 h-10 bg-[#2a2a2f] hover:bg-[#3a3a3f] text-[#e5e5e5] transition-colors font-medium text-sm border border-[#3a3a3f]"
                             >
-                                <PlusCircle size={19} />
+                                <PlusCircle size={18} />
                                 <span>Nuevo Registro</span>
                             </button>
 
-                            {/* Navigation Items */}
+                            {/* Divider */}
+                            <div className="h-px bg-[#3a3a3f] my-2"></div>
+
+                            {/* Menu Items */}
                             {menuItems.map((item) => (
                                 <button
                                     key={item.id}
@@ -216,52 +223,50 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                                         setIsMobileMenuOpen(false);
                                     }}
                                     className={cn(
-                                        "w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium",
+                                        "w-full flex items-center space-x-3 px-3 h-10 transition-colors font-medium text-sm",
                                         activeView === item.id
-                                            ? "bg-slate-800 text-slate-100 border border-slate-700"
-                                            : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                                            ? "bg-[#2a2a2f] text-[#e5e5e5] border border-[#3a3a3f]"
+                                            : "text-[#a0a0a5] hover:bg-[#2a2a2f] hover:text-[#e5e5e5]"
                                     )}
                                 >
-                                    <item.icon size={19} className="flex-shrink-0" />
-                                    <span>{item.label}</span>
+                                    <item.icon size={18} />
+                                    <span className="flex-1 text-left">{item.label}</span>
                                     {activeView === item.id && (
-                                        <div className="ml-auto w-1.5 h-1.5 rounded-full bg-slate-400"></div>
+                                        <div className="w-1 h-1 bg-[#a0a0a5]"></div>
                                     )}
                                 </button>
                             ))}
 
                             {/* Divider */}
-                            <div className="h-px bg-slate-800 my-3"></div>
+                            <div className="h-px bg-[#3a3a3f] my-2"></div>
 
-                            {/* Sincronizar */}
+                            {/* Actions */}
                             <button
                                 disabled={isSyncing}
                                 onClick={onSync}
-                                className="w-full flex items-center space-x-3 px-4 py-3 bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 disabled:text-slate-500 rounded-lg font-semibold transition-all text-slate-100"
+                                className="w-full flex items-center space-x-3 px-3 h-10 bg-[#2a2a2f] hover:bg-[#3a3a3f] disabled:bg-[#1a1a1f] disabled:text-[#6a6a6f] text-[#e5e5e5] transition-colors font-medium text-sm border border-[#3a3a3f]"
                             >
                                 <RefreshCw className={cn("w-[18px] h-[18px]", isSyncing && "animate-spin")} />
                                 <span>Sincronizar</span>
                             </button>
 
-                            {/* Limpiar Datos */}
                             <button
                                 onClick={() => {
                                     onClearData();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center space-x-3 px-4 py-3 bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-800 hover:text-slate-300 rounded-lg font-medium transition-all"
+                                className="w-full flex items-center space-x-3 px-3 h-10 text-[#a0a0a5] hover:bg-[#2a2a2f] hover:text-[#e5e5e5] transition-colors font-medium text-sm"
                             >
                                 <Trash2 size={18} />
                                 <span>Limpiar Datos</span>
                             </button>
 
-                            {/* Cerrar Sesión */}
                             <button
                                 onClick={() => {
                                     onLogout();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg font-medium transition-all"
+                                className="w-full flex items-center space-x-3 px-3 h-10 text-[#a0a0a5] hover:bg-[#2a2a2f] hover:text-[#e5e5e5] transition-colors font-medium text-sm"
                             >
                                 <LogOut size={18} />
                                 <span>Cerrar Sesión</span>

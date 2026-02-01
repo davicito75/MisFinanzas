@@ -78,22 +78,22 @@ export const AIInsights = ({ movements }: AIInsightsProps) => {
     const insights = generateInsights();
 
     return (
-        <div className="glass-card border-indigo-500/20 bg-indigo-500/5">
+        <div className="glass-card border border-[#3a3a3f] bg-[#0a0a0c] p-6">
             <div className="flex items-center space-x-3 mb-6">
-                <div className="p-2 bg-indigo-500/20 rounded-lg text-indigo-400">
-                    <Zap size={20} className="animate-pulse" />
+                <div className="p-2 bg-[#1a1a1f] border border-[#3a3a3f] text-[#a0a0a5]">
+                    <Zap size={20} className="" />
                 </div>
-                <h3 className="text-xl font-black uppercase tracking-tight">IA Insights</h3>
+                <h3 className="text-xl font-black uppercase tracking-tight font-outfit text-[#e5e5e5]">IA Insights</h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {insights.map((insight, i) => (
-                    <div key={i} className="flex flex-col space-y-3 p-4 rounded-2xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.05] transition-all group">
-                        <div className={`p-2 rounded-xl ${insight.bg} ${insight.color} w-fit group-hover:scale-110 transition-transform`}>
+                    <div key={i} className="flex flex-col space-y-3 p-4 bg-[#1a1a1f] border border-[#3a3a3f] hover:border-[#6a6a6f] transition-all group">
+                        <div className={`p-2 ${insight.bg} ${insight.color} w-fit rounded-none border border-current opacity-80 group-hover:opacity-100 transition-opacity`}>
                             <insight.icon size={20} />
                         </div>
-                        <h4 className="font-bold text-slate-100">{insight.title}</h4>
-                        <p className="text-sm text-slate-400 leading-relaxed font-medium">{insight.description}</p>
+                        <h4 className="font-bold text-[#e5e5e5]">{insight.title}</h4>
+                        <p className="text-sm text-[#a0a0a5] leading-relaxed font-medium">{insight.description}</p>
                     </div>
                 ))}
             </div>
