@@ -98,8 +98,9 @@ export const MovementsTable = ({ movements, onUpdateStatus, onEdit }: MovementsT
                 </div>
             </div>
 
-            {/* Table Content */}
-            <div className="glass-card p-0 overflow-hidden">
+
+            {/* Desktop Table View - Hidden on Mobile */}
+            <div className="hidden md:block glass-card p-0 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -211,14 +212,123 @@ export const MovementsTable = ({ movements, onUpdateStatus, onEdit }: MovementsT
                         </div>
                     </div>
                 )}
+            </div>
 
-                {currentItems.length === 0 && (
-                    <div className="flex flex-col items-center justify-center p-20 text-slate-500">
-                        <Search size={48} className="mb-4 opacity-20" />
-                        <p className="text-lg">No se encontraron movimientos con los filtros actuales</p>
+            {/* Mobile Card View - Hidden on Desktop */}
+            <div className="md:hidden space-y-3">
+                {currentItems.map((m) => (
+                    <div key={m.id} className="glass-card hover:border-indigo-500/30 transition-all">
+                        {/* Header: Merchant & Amount */}
+                        <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1 min-w-0">
+                                <h3 className="text-base font-bold text-slate-200 truncate">{m.merchant}</h3>
+                                <p className="text-xs text-slate-500 truncate mt-0.5">{m.description}</p>
+                            </div>
+                            <div className="ml-3 text-right flex-shrink-0">
+                                <div className={cn(
+                                    "text-lg font-black",
+                                    m.type === 'ingreso' ? "text-emerald-500" : "text-slate-200"
+                                )}>
+                                    {m.type === 'ingreso' ? '+' : '-'}{m.currency} {m.amount.toLocaleString()}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Info Grid */}
+                        <div className="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Fecha</p>
+                                <p className="text-sm text-slate-300 font-medium">{m.date}</p>
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Categoría</p>
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400">
+                                    {m.category}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Status Badge */}
+                        <div className="mb-3">
+                            <div className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-800/50 text-xs font-medium text-slate-400 border border-slate-700/50">
+                                {getStatusIcon(m.status)}
+                                <span className="capitalize">{m.status.replace('_', ' ')}</span>
+                            </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-wrap gap-2 pt-3 border-t border-slate-800">
+                            <button
+                                onClick={() => onUpdateStatus(m.id, 'confirmado')}
+                                className="flex-1 flex items-center justify-center space-x-2 px-3 py-2.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-all text-sm font-semibold touch-target-sm"
+                            >
+                                <CheckCircle2 size={16} />
+                                <span>Confirmar</span>
+                            </button>
+                            <button
+                                onClick={() => onUpdateStatus(m.id, 'descartado')}
+                                className="flex-1 flex items-center justify-center space-x-2 px-3 py-2.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-all text-sm font-semibold touch-target-sm"
+                            >
+                                <XCircle size={16} />
+                                <span>Descartar</span>
+                            </button>
+                            <button
+                                onClick={() => onEdit(m)}
+                                className="p-2.5 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 transition-all touch-target-sm"
+                                title="Editar"
+                            >
+                                <PenSquare size={18} />
+                            </button>
+                            {m.emailId && (
+                                <a
+                                    href={`https://mail.google.com/mail/u/0/#inbox/${m.emailId}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2.5 rounded-lg bg-slate-700/50 text-slate-400 hover:bg-slate-700 transition-all touch-target-sm"
+                                    title="Ver en Gmail"
+                                >
+                                    <ExternalLink size={18} />
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                ))}
+
+                {/* Mobile Pagination */}
+                {totalPages > 1 && (
+                    <div className="flex flex-col items-center gap-3 pt-4">
+                        <span className="text-xs text-slate-500">
+                            Mostrando {currentItems.length} de {filteredMovements.length} movimientos
+                        </span>
+                        <div className="flex space-x-3">
+                            <button
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(prev => prev - 1)}
+                                className="flex items-center space-x-2 px-4 py-2.5 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed touch-target-sm font-medium"
+                            >
+                                <ChevronLeft size={18} />
+                                <span>Anterior</span>
+                            </button>
+                            <button
+                                disabled={currentPage === totalPages}
+                                onClick={() => setCurrentPage(prev => prev + 1)}
+                                className="flex items-center space-x-2 px-4 py-2.5 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed touch-target-sm font-medium"
+                            >
+                                <span>Siguiente</span>
+                                <ChevronRight size={18} />
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
+
+            {/* Empty State */}
+            {currentItems.length === 0 && (
+                <div className="flex flex-col items-center justify-center p-20 text-slate-500">
+                    <Search size={48} className="mb-4 opacity-20" />
+                    <p className="text-lg">No se encontraron movimientos con los filtros actuales</p>
+                </div>
+            )}
         </div>
     );
 };
