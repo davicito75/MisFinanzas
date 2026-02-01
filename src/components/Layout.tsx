@@ -164,69 +164,93 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
 
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm md:hidden">
-                    <aside className="w-80 h-full bg-[#0e0e11] p-6 shadow-2xl animate-in slide-in-from-left duration-300 flex flex-col">
-                        <div className="flex items-center justify-between mb-8 flex-shrink-0">
-                            <div className="flex items-center space-x-3">
-                                <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                                    <Receipt className="text-white" size={18} />
+                <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md md:hidden" onClick={() => setIsMobileMenuOpen(false)}>
+                    <aside
+                        className="w-80 h-full bg-gradient-to-b from-[#0e0e11] via-[#0e0e11] to-[#0a0a0d] shadow-2xl animate-in slide-in-from-left duration-300 flex flex-col"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Header with gradient background */}
+                        <div className="bg-gradient-to-r from-indigo-600/20 via-purple-600/20 to-indigo-600/20 border-b border-indigo-500/20 p-6 flex-shrink-0">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                                        <Receipt className="text-white" size={20} />
+                                    </div>
+                                    <span className="text-xl font-black bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">FinGmail</span>
                                 </div>
-                                <span className="text-xl font-bold">FinGmail</span>
-                            </div>
-                            <button
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
-                            >
-                                <X className="text-slate-400" size={24} />
-                            </button>
-                        </div>
-
-                        <div className="bg-white/5 border border-white/5 rounded-2xl p-4 mb-8 flex items-center space-x-3 flex-shrink-0">
-                            <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center font-bold text-white text-lg">
-                                {user?.name?.[0] || 'U'}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-base font-bold truncate">{user?.name || 'Usuario'}</p>
-                                <p className="text-xs text-slate-500 font-medium truncate">{user?.email || 'Local'}</p>
-                            </div>
-                        </div>
-
-                        <nav className="space-y-2 flex-1 overflow-y-auto custom-scrollbar pr-2 -mr-2">
-                            <button
-                                onClick={() => {
-                                    onAddManual();
-                                    setIsMobileMenuOpen(false);
-                                }}
-                                className="w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 mb-4 text-base font-semibold"
-                            >
-                                <PlusCircle size={22} />
-                                <span>Nuevo Registro</span>
-                            </button>
-                            {menuItems.map((item) => (
                                 <button
-                                    key={item.id}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                                >
+                                    <X className="text-slate-300" size={24} />
+                                </button>
+                            </div>
+
+                            {/* User Info Card */}
+                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 flex items-center space-x-3">
+                                <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center font-black text-white text-xl shadow-lg">
+                                    {user?.name?.[0] || 'U'}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-base font-bold text-white truncate">{user?.name || 'Usuario'}</p>
+                                    <p className="text-xs text-indigo-300 font-medium truncate">{user?.email || 'Local'}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Navigation Section */}
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
+                            {/* Quick Action */}
+                            <div className="mb-6">
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">Acción Rápida</p>
+                                <button
                                     onClick={() => {
-                                        onViewChange(item.id);
+                                        onAddManual();
                                         setIsMobileMenuOpen(false);
                                     }}
-                                    className={cn(
-                                        "w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-200 text-base font-medium",
-                                        activeView === item.id
-                                            ? "bg-indigo-600/20 text-indigo-400 border border-indigo-500/30"
-                                            : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
-                                    )}
+                                    className="w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all text-base font-bold"
                                 >
-                                    <item.icon size={22} />
-                                    <span>{item.label}</span>
+                                    <PlusCircle size={22} />
+                                    <span>Nuevo Registro</span>
                                 </button>
-                            ))}
-                        </nav>
+                            </div>
 
-                        <div className="mt-auto pt-6 border-t border-slate-800 space-y-3 flex-shrink-0">
+                            {/* Navigation Items */}
+                            <div className="space-y-2">
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">Navegación</p>
+                                {menuItems.map((item) => (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => {
+                                            onViewChange(item.id);
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className={cn(
+                                            "w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-200 text-base font-semibold group",
+                                            activeView === item.id
+                                                ? "bg-gradient-to-r from-indigo-600/30 to-purple-600/30 text-white border border-indigo-400/30 shadow-lg shadow-indigo-500/20"
+                                                : "text-slate-400 hover:bg-white/5 hover:text-white hover:border hover:border-white/10"
+                                        )}
+                                    >
+                                        <item.icon size={22} className={cn(
+                                            "transition-transform group-hover:scale-110",
+                                            activeView === item.id && "text-indigo-300"
+                                        )} />
+                                        <span>{item.label}</span>
+                                        {activeView === item.id && (
+                                            <div className="ml-auto w-2 h-2 rounded-full bg-indigo-400 shadow-lg shadow-indigo-400/50"></div>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Bottom Actions */}
+                        <div className="p-6 border-t border-slate-800/50 bg-gradient-to-t from-black/20 to-transparent space-y-3 flex-shrink-0">
                             <button
                                 disabled={isSyncing}
                                 onClick={onSync}
-                                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/50 rounded-xl font-semibold transition-all text-base"
+                                className="w-full flex items-center justify-center space-x-2 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-indigo-600/50 disabled:to-purple-600/50 rounded-xl font-bold transition-all text-base shadow-lg shadow-indigo-500/30"
                             >
                                 <RefreshCw className={cn("w-5 h-5", isSyncing && "animate-spin")} />
                                 <span>Sincronizar</span>
@@ -236,7 +260,7 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                                     onClearData();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-xl font-semibold transition-all text-base"
+                                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500/20 rounded-xl font-semibold transition-all text-sm"
                             >
                                 <Trash2 size={18} />
                                 <span>Limpiar Datos</span>
@@ -246,9 +270,9 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                                     onLogout();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-500 hover:text-rose-400 transition-colors border border-transparent text-base font-medium"
+                                className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold transition-all text-sm border border-transparent hover:border-white/10"
                             >
-                                <LogOut size={20} />
+                                <LogOut size={18} />
                                 <span>Cerrar Sesión</span>
                             </button>
                         </div>
