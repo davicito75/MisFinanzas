@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Save, Trash2, Calendar, CreditCard, Tag, ShoppingBag } from 'lucide-react';
+import { X, Save, Trash2 } from 'lucide-react';
 import type { Subscription, Frequency } from '../types';
 
 interface SubscriptionModalProps {
@@ -68,37 +68,27 @@ export const SubscriptionModal = ({ isOpen, onClose, onSave, onDelete, initialDa
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-1.5">
                         <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Nombre del Servicio</label>
-                        <div className="relative group">
-                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                <ShoppingBag size={16} />
-                            </div>
-                            <input
-                                type="text"
-                                required
-                                placeholder="Ej: Netflix, Spotify, iCloud..."
-                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm placeholder-[#6a6a6f]"
-                                value={formData.name}
-                                onChange={e => setFormData({ ...formData, name: e.target.value })}
-                            />
-                        </div>
+                        <input
+                            type="text"
+                            required
+                            placeholder="Ej: Netflix, Spotify, iCloud..."
+                            className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm placeholder-[#6a6a6f]"
+                            value={formData.name}
+                            onChange={e => setFormData({ ...formData, name: e.target.value })}
+                        />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Monto</label>
-                            <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                    <CreditCard size={16} />
-                                </div>
-                                <input
-                                    type="number"
-                                    required
-                                    min="0"
-                                    className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
-                                    value={formData.amount}
-                                    onChange={e => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
-                                />
-                            </div>
+                            <input
+                                type="number"
+                                required
+                                min="0"
+                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
+                                value={formData.amount}
+                                onChange={e => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
+                            />
                         </div>
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Frecuencia</label>
@@ -116,35 +106,25 @@ export const SubscriptionModal = ({ isOpen, onClose, onSave, onDelete, initialDa
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Próximo Cobro</label>
-                            <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                    <Calendar size={16} />
-                                </div>
-                                <input
-                                    type="date"
-                                    required
-                                    className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
-                                    value={formData.nextBillingDate}
-                                    onChange={e => setFormData({ ...formData, nextBillingDate: e.target.value })}
-                                />
-                            </div>
+                            <input
+                                type="date"
+                                required
+                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
+                                value={formData.nextBillingDate}
+                                onChange={e => setFormData({ ...formData, nextBillingDate: e.target.value })}
+                            />
                         </div>
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Categoría</label>
-                            <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                    <Tag size={16} />
-                                </div>
-                                <select
-                                    className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm appearance-none"
-                                    value={formData.category}
-                                    onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                >
-                                    <option value="Suscripciones">Suscripciones</option>
-                                    <option value="Servicios">Servicios</option>
-                                    <option value="Otros">Otros</option>
-                                </select>
-                            </div>
+                            <select
+                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm appearance-none"
+                                value={formData.category}
+                                onChange={e => setFormData({ ...formData, category: e.target.value })}
+                            >
+                                <option value="Suscripciones">Suscripciones</option>
+                                <option value="Servicios">Servicios</option>
+                                <option value="Otros">Otros</option>
+                            </select>
                         </div>
                     </div>
 

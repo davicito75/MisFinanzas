@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Save, Trash2, Calendar, Tag, CreditCard, ShoppingBag, Type } from 'lucide-react';
+import { X, Save, Trash2 } from 'lucide-react';
 import type { Movement, MovementType } from '../types';
 
 interface MovementModalProps {
@@ -69,18 +69,13 @@ export const MovementModal = ({ isOpen, onClose, onSave, onDelete, initialData }
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Fecha</label>
-                            <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                    <Calendar size={16} />
-                                </div>
-                                <input
-                                    type="date"
-                                    required
-                                    className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
-                                    value={formData.date}
-                                    onChange={e => setFormData({ ...formData, date: e.target.value })}
-                                />
-                            </div>
+                            <input
+                                type="date"
+                                required
+                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
+                                value={formData.date}
+                                onChange={e => setFormData({ ...formData, date: e.target.value })}
+                            />
                         </div>
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Tipo</label>
@@ -98,19 +93,14 @@ export const MovementModal = ({ isOpen, onClose, onSave, onDelete, initialData }
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Monto</label>
-                            <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                    <CreditCard size={16} />
-                                </div>
-                                <input
-                                    type="number"
-                                    required
-                                    min="0"
-                                    className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
-                                    value={formData.amount}
-                                    onChange={e => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
-                                />
-                            </div>
+                            <input
+                                type="number"
+                                required
+                                min="0"
+                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
+                                value={formData.amount}
+                                onChange={e => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
+                            />
                         </div>
                         <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Moneda</label>
@@ -128,56 +118,41 @@ export const MovementModal = ({ isOpen, onClose, onSave, onDelete, initialData }
 
                     <div className="space-y-1.5">
                         <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Comercio / Origen</label>
-                        <div className="relative group">
-                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                <ShoppingBag size={16} />
-                            </div>
-                            <input
-                                type="text"
-                                required
-                                placeholder="Ej: Starbucks, Enel, Sueldo..."
-                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm placeholder-[#6a6a6f]"
-                                value={formData.merchant}
-                                onChange={e => setFormData({ ...formData, merchant: e.target.value })}
-                            />
-                        </div>
+                        <input
+                            type="text"
+                            required
+                            placeholder="Ej: Starbucks, Enel, Sueldo..."
+                            className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm placeholder-[#6a6a6f]"
+                            value={formData.merchant}
+                            onChange={e => setFormData({ ...formData, merchant: e.target.value })}
+                        />
                     </div>
 
                     <div className="space-y-1.5">
                         <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Categoría</label>
-                        <div className="relative group">
-                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                <Tag size={16} />
-                            </div>
-                            <select
-                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm appearance-none"
-                                value={formData.category}
-                                onChange={e => setFormData({ ...formData, category: e.target.value })}
-                            >
-                                <option value="Servicios">Servicios</option>
-                                <option value="Suscripciones">Suscripciones</option>
-                                <option value="Alimentación">Alimentación</option>
-                                <option value="Transporte">Transporte</option>
-                                <option value="Finanzas">Finanzas</option>
-                                <option value="Compras">Compras</option>
-                                <option value="Otros">Otros</option>
-                            </select>
-                        </div>
+                        <select
+                            className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm appearance-none"
+                            value={formData.category}
+                            onChange={e => setFormData({ ...formData, category: e.target.value })}
+                        >
+                            <option value="Servicios">Servicios</option>
+                            <option value="Suscripciones">Suscripciones</option>
+                            <option value="Alimentación">Alimentación</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Finanzas">Finanzas</option>
+                            <option value="Compras">Compras</option>
+                            <option value="Otros">Otros</option>
+                        </select>
                     </div>
 
                     <div className="space-y-1.5">
                         <label className="text-xs font-bold text-[#6a6a6f] uppercase tracking-widest">Descripción (Opcional)</label>
-                        <div className="relative group">
-                            <div className="absolute left-3 top-4 text-[#a0a0a5]">
-                                <Type size={16} />
-                            </div>
-                            <textarea
-                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 pl-10 pr-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
-                                rows={2}
-                                value={formData.description}
-                                onChange={e => setFormData({ ...formData, description: e.target.value })}
-                            />
-                        </div>
+                        <textarea
+                            className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-2.5 px-3 text-[#e5e5e5] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium text-sm"
+                            rows={2}
+                            value={formData.description}
+                            onChange={e => setFormData({ ...formData, description: e.target.value })}
+                        />
                     </div>
 
                     <div className="flex items-center justify-between pt-6 border-t border-[#3a3a3f] mt-6">

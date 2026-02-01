@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, ArrowRight, Receipt, AlertCircle } from 'lucide-react';
+import { ArrowRight, Receipt, AlertCircle } from 'lucide-react';
 import { supabaseAuthService } from '../lib/auth/SupabaseAuthService';
 import type { UserProfile } from '../types';
 
@@ -57,54 +57,39 @@ export const LoginView = ({ onLoginSuccess }: LoginViewProps) => {
                         {!isLogin && (
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-[#a0a0a5] ml-1">NOMBRE COMPLETO</label>
-                                <div className="relative group">
-                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                        <User size={18} />
-                                    </div>
-                                    <input
-                                        type="text"
-                                        required
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-3 pl-10 pr-4 text-[#e5e5e5] placeholder:text-[#6a6a6f] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium"
-                                        placeholder="David González"
-                                    />
-                                </div>
+                                <input
+                                    type="text"
+                                    required
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-3 px-4 text-[#e5e5e5] placeholder:text-[#6a6a6f] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium"
+                                    placeholder="David González"
+                                />
                             </div>
                         )}
 
                         <div className="space-y-2">
                             <label className="text-sm font-bold text-[#a0a0a5] ml-1">CORREO ELECTRÓNICO</label>
-                            <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                    <Mail size={18} />
-                                </div>
-                                <input
-                                    type="email"
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-3 pl-10 pr-4 text-[#e5e5e5] placeholder:text-[#6a6a6f] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium"
-                                    placeholder="david@ejemplo.com"
-                                />
-                            </div>
+                            <input
+                                type="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-3 px-4 text-[#e5e5e5] placeholder:text-[#6a6a6f] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium"
+                                placeholder="david@ejemplo.com"
+                            />
                         </div>
 
                         <div className="space-y-2">
                             <label className="text-sm font-bold text-[#a0a0a5] ml-1">CONTRASEÑA</label>
-                            <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0a0a5]">
-                                    <Lock size={18} />
-                                </div>
-                                <input
-                                    type="password"
-                                    required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-3 pl-10 pr-4 text-[#e5e5e5] placeholder:text-[#6a6a6f] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium"
-                                    placeholder="••••••••"
-                                />
-                            </div>
+                            <input
+                                type="password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full bg-[#1a1a1f] border border-[#3a3a3f] py-3 px-4 text-[#e5e5e5] placeholder:text-[#6a6a6f] focus:outline-none focus:border-[#e5e5e5] transition-all font-medium"
+                                placeholder="••••••••"
+                            />
                         </div>
 
                         {error && (
