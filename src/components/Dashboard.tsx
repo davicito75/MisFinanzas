@@ -239,9 +239,9 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
                     </div>
 
                     {/* FIXED HEIGHT CONTAINER FOR RECHARTS */}
-                    <div className="h-[250px] md:h-[300px] w-full relative" style={{ minWidth: 0, minHeight: '250px' }}>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={200}>
+                    <div className="w-full" style={{ minHeight: '250px', height: '250px' }}>
+                        <div className="w-full h-full relative">
+                            <ResponsiveContainer width="100%" height="100%" minWidth={250} minHeight={250}>
                                 <PieChart>
                                     <Pie
                                         data={categoryData}
@@ -275,12 +275,12 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
                                     />
                                 </PieChart>
                             </ResponsiveContainer>
-                        </div>
 
-                        {/* Center Text for Donut */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-widest">Gasto Total</span>
-                            <span className="text-xl md:text-2xl font-black stat-value">${totalExpense.toLocaleString()}</span>
+                            {/* Center Text for Donut */}
+                            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                <span className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-widest">Gasto Total</span>
+                                <span className="text-xl md:text-2xl font-black stat-value">${totalExpense.toLocaleString()}</span>
+                            </div>
                         </div>
                     </div>
 
