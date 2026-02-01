@@ -1,0 +1,154 @@
+import React, { useState } from 'react';
+import { Mail, Lock, User, ArrowRight, Receipt, AlertCircle } from 'lucide-react';
+import { supabaseAuthService } from '../lib/auth/SupabaseAuthService';
+import type { UserProfile } from '../types';
+
+interface LoginViewProps {
+    onLoginSuccess: (user: UserProfile) => void;
+}
+
+export const LoginView = ({ onLoginSuccess }: LoginViewProps) => {
+    const [isLogin, setIsLogin] = useState(true);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setIsLoading(true);
+
+        try {
+            let user: UserProfile;
+            if (isLogin) {
+                user = await supabaseAuthService.login(email, password);
+            } else {
+                user = await supabaseAuthService.register(email, password, name);
+            }
+            onLoginSuccess(user);
+        } catch (err: any) {
+            setError(err.message || 'Ocurrió un error inesperado.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center p-4 relative overflow-hidden">
+            {/* Ambient Background Elements */}
+            <div className="fixed top-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none" />
+            <div className="fixed bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
+
+            <div className="w-full max-w-md relative z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                <div className="glass-card !p-8 border-indigo-500/20 bg-indigo-950/10 shadow-2xl">
+                    <div className="flex flex-col items-center mb-8">
+                        <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-indigo-600/20">
+                            <Receipt className="text-white" size={32} />
+                        </div>
+                        <h1 className="text-4xl font-black gradient-text tracking-tighter">FinGmail</h1>
+                        <p className="text-slate-400 font-medium mt-2">
+                            {isLogin ? 'Bienvenido de nuevo' : 'Crea tu cuenta local'}
+                        </p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {!isLogin && (
+                            <div className="space-y-2">
+                                <label className="text-sm font-bold text-slate-300 ml-1">NOMBRE COMPLETO</label>
+                                <div className="relative group">
+                                    <div className="input-icon-wrapper">
+                                        <User size={18} />
+                                    </div>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        className="w-full bg-slate-900/50 border border-slate-700 rounded-xl py-3 input-with-icon pr-4 text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all font-medium"
+                                        placeholder="David González"
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-slate-300 ml-1">CORREO ELECTRÓNICO</label>
+                            <div className="relative group">
+                                <div className="input-icon-wrapper">
+                                    <Mail size={18} />
+                                </div>
+                                <input
+                                    type="email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full bg-slate-900/50 border border-slate-700 rounded-xl py-3 input-with-icon pr-4 text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all font-medium"
+                                    placeholder="david@ejemplo.com"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-slate-300 ml-1">CONTRASEÑA</label>
+                            <div className="relative group">
+                                <div className="input-icon-wrapper">
+                                    <Lock size={18} />
+                                </div>
+                                <input
+                                    type="password"
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full bg-slate-900/50 border border-slate-700 rounded-xl py-3 input-with-icon pr-4 text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all font-medium"
+                                    placeholder="••••••••"
+                                />
+                            </div>
+                        </div>
+
+                        {error && (
+                            <div className="flex items-center space-x-2 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-sm font-medium animate-in fade-in duration-300">
+                                <AlertCircle size={18} className="flex-shrink-0" />
+                                <span>{error}</span>
+                            </div>
+                        )}
+
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl py-4 font-black uppercase tracking-widest text-sm shadow-xl shadow-indigo-600/20 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center space-x-2"
+                        >
+                            {isLoading ? (
+                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            ) : (
+                                <>
+                                    <span>{isLogin ? 'Entrar' : 'Registrarse'}</span>
+                                    <ArrowRight size={18} />
+                                </>
+                            )}
+                        </button>
+                    </form>
+
+                    <div className="mt-8 text-center">
+                        <button
+                            onClick={() => {
+                                setIsLogin(!isLogin);
+                                setError('');
+                            }}
+                            className="text-slate-400 hover:text-indigo-400 transition-colors text-sm font-bold uppercase tracking-tight"
+                        >
+                            {isLogin
+                                ? '¿No tienes cuenta? Regístrate aquí'
+                                : '¿Ya tienes cuenta? Inicia sesión'}
+                        </button>
+                    </div>
+
+                    <div className="mt-8 pt-6 border-t border-slate-800 text-[10px] text-slate-600 text-center uppercase tracking-widest font-black italic">
+                        🔐 Datos almacenados localmente en este navegador
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
