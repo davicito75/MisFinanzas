@@ -123,12 +123,12 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
             {/* Main Content */}
             <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
                 {/* Mobile Header - Simplified */}
-                <header className="lg:hidden flex items-center justify-between p-4 border-b border-slate-800 bg-[#0e0e11]">
+                <header className="lg:hidden flex items-center justify-between p-4 border-b border-slate-800 bg-[#1a1a1f]">
                     <div className="flex items-center space-x-3">
-                        <div className="w-6 h-6 bg-indigo-600 rounded flex items-center justify-center">
-                            <Receipt className="text-white" size={14} />
+                        <div className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center">
+                            <Receipt className="text-slate-300" size={14} />
                         </div>
-                        <span className="font-bold">FinGmail</span>
+                        <span className="font-bold text-slate-200">FinGmail</span>
                     </div>
                     <button onClick={() => setIsMobileMenuOpen(true)}>
                         <Menu className="text-slate-400" />
@@ -140,11 +140,6 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                     <div className="max-w-7xl mx-auto h-full relative z-10">
                         {children}
                     </div>
-
-                    {/* Ambient Elements */}
-                    <div className="fixed top-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none -z-0" />
-                    <div className="fixed bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none -z-0" />
-                    <div className="fixed top-[20%] left-[10%] w-[30%] h-[30%] bg-purple-600/5 blur-[100px] rounded-full pointer-events-none -z-0" />
                 </div>
             </main>
 
@@ -164,51 +159,51 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
 
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md md:hidden" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm md:hidden" onClick={() => setIsMobileMenuOpen(false)}>
                     <aside
-                        className="w-80 h-full bg-gradient-to-b from-[#0e0e11] via-[#0e0e11] to-[#0a0a0d] shadow-2xl animate-in slide-in-from-left duration-300 flex flex-col"
+                        className="w-80 h-full bg-[#1a1a1f] shadow-2xl animate-in slide-in-from-left duration-300 flex flex-col border-r border-slate-800"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {/* Header with gradient background */}
-                        <div className="bg-gradient-to-r from-indigo-600/20 via-purple-600/20 to-indigo-600/20 border-b border-indigo-500/20 p-5 flex-shrink-0">
+                        {/* Header */}
+                        <div className="bg-slate-900/50 border-b border-slate-800 p-5 flex-shrink-0">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                                        <Receipt className="text-white" size={20} />
+                                    <div className="w-9 h-9 bg-slate-700 rounded-lg flex items-center justify-center">
+                                        <Receipt className="text-slate-300" size={18} />
                                     </div>
-                                    <span className="text-xl font-black bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">FinGmail</span>
+                                    <span className="text-lg font-bold text-slate-200">FinGmail</span>
                                 </div>
                                 <button
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
                                 >
-                                    <X className="text-slate-300" size={24} />
+                                    <X className="text-slate-400" size={22} />
                                 </button>
                             </div>
 
                             {/* User Info Card */}
-                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 flex items-center space-x-3">
-                                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center font-black text-white text-lg shadow-lg">
+                            <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 flex items-center space-x-3">
+                                <div className="w-11 h-11 bg-slate-700 rounded-lg flex items-center justify-center font-bold text-slate-300 text-base">
                                     {user?.name?.[0] || 'U'}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-bold text-white truncate">{user?.name || 'Usuario'}</p>
-                                    <p className="text-[11px] text-indigo-300 font-medium truncate">{user?.email || 'Local'}</p>
+                                    <p className="text-sm font-semibold text-slate-200 truncate">{user?.name || 'Usuario'}</p>
+                                    <p className="text-xs text-slate-500 truncate">{user?.email || 'Local'}</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* All Options Stacked Together */}
-                        <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-2">
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-1.5">
                             {/* Quick Action - Nuevo Registro */}
                             <button
                                 onClick={() => {
                                     onAddManual();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all font-bold"
+                                className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 transition-all font-semibold"
                             >
-                                <PlusCircle size={20} />
+                                <PlusCircle size={19} />
                                 <span>Nuevo Registro</span>
                             </button>
 
@@ -221,33 +216,30 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                                         setIsMobileMenuOpen(false);
                                     }}
                                     className={cn(
-                                        "w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-200 font-semibold group",
+                                        "w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium",
                                         activeView === item.id
-                                            ? "bg-gradient-to-r from-indigo-600/30 to-purple-600/30 text-white border border-indigo-400/30 shadow-lg shadow-indigo-500/20"
-                                            : "text-slate-400 hover:bg-white/5 hover:text-white hover:border hover:border-white/10"
+                                            ? "bg-slate-800 text-slate-100 border border-slate-700"
+                                            : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
                                     )}
                                 >
-                                    <item.icon size={20} className={cn(
-                                        "transition-transform group-hover:scale-110",
-                                        activeView === item.id && "text-indigo-300"
-                                    )} />
+                                    <item.icon size={19} className="flex-shrink-0" />
                                     <span>{item.label}</span>
                                     {activeView === item.id && (
-                                        <div className="ml-auto w-2 h-2 rounded-full bg-indigo-400 shadow-lg shadow-indigo-400/50"></div>
+                                        <div className="ml-auto w-1.5 h-1.5 rounded-full bg-slate-400"></div>
                                     )}
                                 </button>
                             ))}
 
                             {/* Divider */}
-                            <div className="h-px bg-slate-800/50 my-3"></div>
+                            <div className="h-px bg-slate-800 my-3"></div>
 
                             {/* Sincronizar */}
                             <button
                                 disabled={isSyncing}
                                 onClick={onSync}
-                                className="w-full flex items-center space-x-3 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-indigo-600/50 disabled:to-purple-600/50 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/30 text-white"
+                                className="w-full flex items-center space-x-3 px-4 py-3 bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 disabled:text-slate-500 rounded-lg font-semibold transition-all text-slate-100"
                             >
-                                <RefreshCw className={cn("w-5 h-5", isSyncing && "animate-spin")} />
+                                <RefreshCw className={cn("w-[18px] h-[18px]", isSyncing && "animate-spin")} />
                                 <span>Sincronizar</span>
                             </button>
 
@@ -257,7 +249,7 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                                     onClearData();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center space-x-3 px-4 py-3 bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500/20 rounded-xl font-semibold transition-all"
+                                className="w-full flex items-center space-x-3 px-4 py-3 bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-800 hover:text-slate-300 rounded-lg font-medium transition-all"
                             >
                                 <Trash2 size={18} />
                                 <span>Limpiar Datos</span>
@@ -269,7 +261,7 @@ export const AppLayout = ({ children, activeView, onViewChange, onSync, onAddMan
                                     onLogout();
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold transition-all border border-transparent hover:border-white/10"
+                                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg font-medium transition-all"
                             >
                                 <LogOut size={18} />
                                 <span>Cerrar Sesión</span>
