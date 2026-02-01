@@ -178,24 +178,24 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
     const COLORS = ['#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe', '#e0e7ff'];
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-white/5">
+        <div className="space-y-6 md:space-y-8 animate-fade-in">
+            <header className="flex flex-col gap-4 md:gap-6 pb-4 border-b border-white/5">
                 <div>
                     <div className="flex items-center space-x-2 mb-2">
                         <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
                         <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest">En vivo</span>
                     </div>
-                    <h1 className="text-5xl font-black gradient-text tracking-tighter mb-2">Hola de nuevo{userName ? `, ${userName}` : ''}</h1>
-                    <p className="text-slate-400 text-lg font-medium">Controla tus finanzas con inteligencia.</p>
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-black gradient-text tracking-tighter mb-2">Hola de nuevo{userName ? `, ${userName}` : ''}</h1>
+                    <p className="text-slate-400 text-sm md:text-base lg:text-lg font-medium">Controla tus finanzas con inteligencia.</p>
                 </div>
                 <div className="flex items-center">
-                    <div className="glass-card !py-3 !px-5 !rounded-2xl border border-indigo-500/20 bg-indigo-500/5 shadow-xl shadow-indigo-500/5 flex items-center space-x-4">
-                        <div className="p-2 bg-indigo-500/20 rounded-lg text-indigo-400">
-                            <Calendar size={20} />
+                    <div className="glass-card !py-2 md:!py-3 !px-3 md:!px-5 !rounded-xl md:!rounded-2xl border border-indigo-500/20 bg-indigo-500/5 shadow-xl shadow-indigo-500/5 flex items-center space-x-3 md:space-x-4">
+                        <div className="p-1.5 md:p-2 bg-indigo-500/20 rounded-lg text-indigo-400">
+                            <Calendar size={18} className="md:w-5 md:h-5" />
                         </div>
                         <div>
-                            <p className="text-[10px] uppercase font-bold text-indigo-400/60 tracking-wider mb-0">Periodo actual</p>
-                            <p className="text-sm font-bold text-indigo-100 uppercase">{monthName} {yearName}</p>
+                            <p className="text-[9px] md:text-[10px] uppercase font-bold text-indigo-400/60 tracking-wider mb-0">Periodo actual</p>
+                            <p className="text-xs md:text-sm font-bold text-indigo-100 uppercase">{monthName} {yearName}</p>
                         </div>
                     </div>
                 </div>
@@ -204,7 +204,7 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
             <AIInsights movements={movements} />
 
             {/* Grid Sections */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 <StatCard
                     title="Total Ingresos"
                     amount={totalIncome}
@@ -230,25 +230,25 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
                 />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
                 {/* Category Chart - Left */}
-                <div className="glass-card lg:col-span-5 flex flex-col min-h-[500px] border-indigo-500/10 min-w-0 overflow-hidden">
-                    <div className="mb-8">
-                        <h3 className="text-xl font-black mb-1">Distribución</h3>
-                        <p className="text-slate-500 text-sm font-medium">Gastos segmentados por categoría</p>
+                <div className="glass-card lg:col-span-5 flex flex-col min-h-[400px] md:min-h-[500px] border-indigo-500/10 min-w-0 overflow-hidden">
+                    <div className="mb-6 md:mb-8">
+                        <h3 className="text-lg md:text-xl font-black mb-1">Distribución</h3>
+                        <p className="text-slate-500 text-xs md:text-sm font-medium">Gastos segmentados por categoría</p>
                     </div>
 
                     {/* FIXED HEIGHT CONTAINER FOR RECHARTS */}
-                    <div className="h-[300px] w-full relative">
+                    <div className="h-[250px] md:h-[300px] w-full relative" style={{ minWidth: 0, minHeight: '250px' }}>
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <ResponsiveContainer width="100%" height={300}>
+                            <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={200}>
                                 <PieChart>
                                     <Pie
                                         data={categoryData}
                                         cx="50%"
                                         cy="50%"
-                                        innerRadius={80}
-                                        outerRadius={105}
+                                        innerRadius={60}
+                                        outerRadius={85}
                                         paddingAngle={8}
                                         dataKey="value"
                                         animationBegin={0}
@@ -267,10 +267,11 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
                                         contentStyle={{
                                             backgroundColor: 'rgba(10, 10, 12, 0.95)',
                                             borderColor: 'rgba(99, 102, 241, 0.2)',
-                                            borderRadius: '16px',
-                                            padding: '12px'
+                                            borderRadius: '12px',
+                                            padding: '8px 12px',
+                                            fontSize: '11px'
                                         }}
-                                        itemStyle={{ color: '#fff', fontSize: '12px', fontWeight: 'bold' }}
+                                        itemStyle={{ color: '#fff', fontSize: '11px', fontWeight: 'bold' }}
                                     />
                                 </PieChart>
                             </ResponsiveContainer>
@@ -278,18 +279,18 @@ export const Dashboard = ({ movements, onViewChange, userName }: DashboardProps)
 
                         {/* Center Text for Donut */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Gasto Total</span>
-                            <span className="text-2xl font-black stat-value">${totalExpense.toLocaleString()}</span>
+                            <span className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-widest">Gasto Total</span>
+                            <span className="text-xl md:text-2xl font-black stat-value">${totalExpense.toLocaleString()}</span>
                         </div>
                     </div>
 
-                    <div className="mt-8 grid grid-cols-2 gap-4">
+                    <div className="mt-6 md:mt-8 grid grid-cols-2 gap-3 md:gap-4">
                         {categoryData.slice(0, 4).map((item, i) => (
-                            <div key={item.name} className="flex items-center space-x-3 bg-white/5 p-3 rounded-xl border border-white/5">
-                                <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                            <div key={item.name} className="flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg md:rounded-xl border border-white/5">
+                                <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
                                 <div className="min-w-0">
-                                    <p className="text-[10px] font-bold text-slate-500 uppercase truncate">{item.name}</p>
-                                    <p className="text-xs font-black truncate">${item.value.toLocaleString()}</p>
+                                    <p className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase truncate">{item.name}</p>
+                                    <p className="text-[11px] md:text-xs font-black truncate">${item.value.toLocaleString()}</p>
                                 </div>
                             </div>
                         ))}

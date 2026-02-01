@@ -50,34 +50,34 @@ export const MovementsTable = ({ movements, onUpdateStatus, onEdit }: MovementsT
     };
 
     return (
-        <div className="space-y-6">
-            <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <h1 className="text-3xl font-bold">Movimientos</h1>
+        <div className="space-y-4 md:space-y-6">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
+                <h1 className="text-2xl md:text-3xl font-bold">Movimientos</h1>
                 <div className="flex space-x-3">
-                    <button className="secondary-button flex items-center space-x-2">
-                        <Download size={18} />
+                    <button className="secondary-button flex items-center space-x-2 text-sm">
+                        <Download size={16} className="md:w-[18px] md:h-[18px]" />
                         <span>Exportar</span>
                     </button>
                 </div>
             </header>
 
             {/* Filters Bar */}
-            <div className="glass-card flex flex-col md:flex-row gap-4">
+            <div className="glass-card flex flex-col gap-3 md:gap-4">
                 <div className="flex-1 relative group">
                     <div className="input-icon-wrapper !left-3">
-                        <Search size={18} />
+                        <Search size={16} className="md:w-[18px] md:h-[18px]" />
                     </div>
                     <input
                         type="text"
                         placeholder="Buscar por comercio o descripción..."
-                        className="w-full bg-slate-900/50 border border-slate-700 rounded-lg py-2 input-with-icon pr-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-600/50 transition-all font-medium"
+                        className="w-full bg-slate-900/50 border border-slate-700 rounded-lg py-2.5 md:py-2 input-with-icon pr-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-600/50 transition-all font-medium text-sm md:text-base"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
                     <select
-                        className="bg-slate-900/50 border border-slate-700 rounded-lg py-2 px-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-600/50"
+                        className="flex-1 bg-slate-900/50 border border-slate-700 rounded-lg py-2.5 md:py-2 px-3 md:px-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-600/50 text-sm md:text-base"
                         value={typeFilter}
                         onChange={(e) => setTypeFilter(e.target.value as any)}
                     >
@@ -86,7 +86,7 @@ export const MovementsTable = ({ movements, onUpdateStatus, onEdit }: MovementsT
                         <option value="ingreso">Ingresos</option>
                     </select>
                     <select
-                        className="bg-slate-900/50 border border-slate-700 rounded-lg py-2 px-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-600/50"
+                        className="flex-1 bg-slate-900/50 border border-slate-700 rounded-lg py-2.5 md:py-2 px-3 md:px-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-600/50 text-sm md:text-base"
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value as any)}
                     >
@@ -189,22 +189,22 @@ export const MovementsTable = ({ movements, onUpdateStatus, onEdit }: MovementsT
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex items-center justify-between px-6 py-4 bg-slate-900/30 border-t border-slate-800">
-                        <span className="text-sm text-slate-500">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 md:px-6 py-3 md:py-4 bg-slate-900/30 border-t border-slate-800">
+                        <span className="text-xs md:text-sm text-slate-500">
                             Mostrando {currentItems.length} de {filteredMovements.length} movimientos
                         </span>
                         <div className="flex space-x-2">
                             <button
                                 disabled={currentPage === 1}
                                 onClick={() => setCurrentPage(prev => prev - 1)}
-                                className="p-2 rounded-lg bg-slate-800 text-slate-400 disabled:opacity-30"
+                                className="p-2 md:p-2.5 rounded-lg bg-slate-800 text-slate-400 disabled:opacity-30 touch-target-sm"
                             >
                                 <ChevronLeft size={18} />
                             </button>
                             <button
                                 disabled={currentPage === totalPages}
                                 onClick={() => setCurrentPage(prev => prev + 1)}
-                                className="p-2 rounded-lg bg-slate-800 text-slate-400 disabled:opacity-30"
+                                className="p-2 md:p-2.5 rounded-lg bg-slate-800 text-slate-400 disabled:opacity-30 touch-target-sm"
                             >
                                 <ChevronRight size={18} />
                             </button>

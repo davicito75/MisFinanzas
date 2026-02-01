@@ -17,15 +17,15 @@ export const SubscriptionsList = ({ subscriptions, onEdit, onDelete, onAdd, onTo
         .reduce((acc, s) => acc + s.amount, 0);
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-6 md:space-y-8 animate-fade-in">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold">Suscripciones</h1>
-                    <p className="text-slate-400">Gestiona tus pagos recurrentes y evita cargos inesperados.</p>
+                    <h1 className="text-2xl md:text-3xl font-bold">Suscripciones</h1>
+                    <p className="text-slate-400 text-sm md:text-base">Gestiona tus pagos recurrentes y evita cargos inesperados.</p>
                 </div>
                 <button
                     onClick={onAdd}
-                    className="primary-button flex items-center space-x-2"
+                    className="primary-button flex items-center space-x-2 text-sm md:text-base"
                 >
                     <Plus size={18} />
                     <span>Nueva Suscripción</span>
@@ -33,33 +33,33 @@ export const SubscriptionsList = ({ subscriptions, onEdit, onDelete, onAdd, onTo
             </header>
 
             {/* Summary Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <div className="glass-card bg-indigo-600/10 border-indigo-500/20">
-                    <div className="flex items-center space-x-4">
-                        <div className="p-3 bg-indigo-600 rounded-xl">
-                            <Calendar className="text-white" size={24} />
+                    <div className="flex items-center space-x-3 md:space-x-4">
+                        <div className="p-2.5 md:p-3 bg-indigo-600 rounded-xl">
+                            <Calendar className="text-white md:w-6 md:h-6" size={20} />
                         </div>
                         <div>
-                            <p className="text-slate-400 text-sm font-medium">Costo Mensual Estimado</p>
-                            <h2 className="text-3xl font-bold">$ {totalMonthly.toLocaleString()}</h2>
+                            <p className="text-slate-400 text-xs md:text-sm font-medium">Costo Mensual Estimado</p>
+                            <h2 className="text-2xl md:text-3xl font-bold">$ {totalMonthly.toLocaleString()}</h2>
                         </div>
                     </div>
                 </div>
                 <div className="glass-card bg-emerald-600/10 border-emerald-500/20">
-                    <div className="flex items-center space-x-4">
-                        <div className="p-3 bg-emerald-600 rounded-xl">
-                            <CreditCard className="text-white" size={24} />
+                    <div className="flex items-center space-x-3 md:space-x-4">
+                        <div className="p-2.5 md:p-3 bg-emerald-600 rounded-xl">
+                            <CreditCard className="text-white md:w-6 md:h-6" size={20} />
                         </div>
                         <div>
-                            <p className="text-slate-400 text-sm font-medium">Suscripciones Activas</p>
-                            <h2 className="text-3xl font-bold">{activeSubs.length}</h2>
+                            <p className="text-slate-400 text-xs md:text-sm font-medium">Suscripciones Activas</p>
+                            <h2 className="text-2xl md:text-3xl font-bold">{activeSubs.length}</h2>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Active Subscriptions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {subscriptions.map((sub) => (
                     <div key={sub.id} className="glass-card flex flex-col justify-between group/card relative overflow-hidden">
                         {/* Status Glow Background */}

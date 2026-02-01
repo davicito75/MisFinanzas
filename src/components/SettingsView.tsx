@@ -76,36 +76,36 @@ export const SettingsView = ({ user, state, onImportData, onClearData, onUpdateP
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="space-y-6 md:space-y-8 animate-fade-in">
             <header>
-                <div className="flex items-center space-x-3 mb-2">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg">
-                        <SettingsIcon className="text-indigo-400" size={24} />
+                <div className="flex items-center space-x-2 md:space-x-3 mb-2">
+                    <div className="p-1.5 md:p-2 bg-indigo-500/10 rounded-lg">
+                        <SettingsIcon className="text-indigo-400 w-5 md:w-6 h-5 md:h-6" />
                     </div>
-                    <h1 className="text-3xl font-bold">Configuración</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold">Configuración</h1>
                 </div>
-                <p className="text-slate-400">Personaliza tu experiencia y gestiona tus datos locales.</p>
+                <p className="text-slate-400 text-sm md:text-base">Personaliza tu experiencia y gestiona tus datos locales.</p>
             </header>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
                 {/* Profile Section */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-4 md:space-y-6">
                     <section className="glass-card">
-                        <div className="flex items-center justify-between mb-6">
-                            <div className="flex items-center space-x-3">
-                                <User className="text-indigo-400" size={20} />
-                                <h2 className="text-xl font-bold uppercase tracking-tight text-slate-200">Perfil de Usuario</h2>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 md:gap-0 mb-4 md:mb-6">
+                            <div className="flex items-center space-x-2 md:space-x-3">
+                                <User className="text-indigo-400 w-[18px] md:w-5 h-[18px] md:h-5" />
+                                <h2 className="text-lg md:text-xl font-bold uppercase tracking-tight text-slate-200">Perfil de Usuario</h2>
                             </div>
                             <button
                                 onClick={handleSaveProfile}
                                 disabled={isSaving}
-                                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white rounded-lg text-xs font-bold uppercase tracking-widest transition-all shadow-lg shadow-indigo-600/20"
+                                className="w-full sm:w-auto px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white rounded-lg text-xs font-bold uppercase tracking-widest transition-all shadow-lg shadow-indigo-600/20"
                             >
                                 {isSaving ? 'Guardando...' : 'Guardar Cambios'}
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 gap-4 md:gap-6">
                             <div className="space-y-1.5">
                                 <label className="text-xs font-semibold text-slate-500 uppercase tracking-widest flex items-center">
                                     <Shield size={12} className="mr-1" /> Nombre Completo
@@ -114,7 +114,7 @@ export const SettingsView = ({ user, state, onImportData, onClearData, onUpdateP
                                     type="text"
                                     value={formData.name}
                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all"
+                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-2.5 md:py-3 text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all text-sm md:text-base"
                                 />
                             </div>
                             <div className="space-y-1.5">
@@ -125,7 +125,7 @@ export const SettingsView = ({ user, state, onImportData, onClearData, onUpdateP
                                     type="email"
                                     value={formData.email}
                                     onChange={e => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all"
+                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-2.5 md:py-3 text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all text-sm md:text-base"
                                 />
                             </div>
                             <div className="space-y-1.5">
@@ -135,7 +135,7 @@ export const SettingsView = ({ user, state, onImportData, onClearData, onUpdateP
                                 <select
                                     value={formData.currency}
                                     onChange={e => setFormData({ ...formData, currency: e.target.value })}
-                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all appearance-none"
+                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-2.5 md:py-3 text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all appearance-none text-sm md:text-base"
                                 >
                                     <option value="CLP">CLP - Peso Chileno</option>
                                     <option value="USD">USD - Dólar Estadounidense</option>
@@ -149,7 +149,7 @@ export const SettingsView = ({ user, state, onImportData, onClearData, onUpdateP
                                 <select
                                     value={formData.timezone}
                                     onChange={e => setFormData({ ...formData, timezone: e.target.value })}
-                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all appearance-none"
+                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-2.5 md:py-3 text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all appearance-none text-sm md:text-base"
                                 >
                                     <option value="America/Santiago">America/Santiago (UTC-3)</option>
                                     <option value="UTC">Coordinated Universal Time (UTC)</option>
